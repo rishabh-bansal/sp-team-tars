@@ -1,5 +1,5 @@
 # Description:
-#   Returns information for the given timezone
+#   Returns the current time for a location
 #
 # Dependencies:
 #   None
@@ -8,22 +8,27 @@
 #   None
 #
 # Commands:
-#   hubot show timezone <timezone>
+#   hubot current time in <location>
 #
 # Author:
 #   cpradio
 
 module.exports = (robot) ->
-  robot.respond /show timezone (.*)/i, (msg) ->
-    searchMe msg, "current time in #{msg.match[1]} site:worldtimezone.com", (text) ->
+  robot.respond /current time in (.*)/i, (msg) ->
+    searchMe msg, "current time in #{msg.match[1]}", (text) ->
       msg.send text
 
 searchMe = (msg, query, cb) ->
-  q = v: '1.0', rsz: '8', q: query, safe: 'active'
-  msg.http('http://ajax.googleapis.com/ajax/services/search/web')
-    .query(q)
+  searchUrl = "https://www.google.com/search?q=#{encodeURIComponent(query)}"
+  msg.http('https://www.google.com/search')
+    .query(q: query)
     .get() (err, res, body) ->
-      searchResults = JSON.parse(body)
-      searchResults = searchResults.responseData?.results
-      if searchResults?.length > 0
-        cb searchResults[0].content.replace(/(<([^>]+)>)/ig, '')
+      searchResults = body.replace /<[^>]*>/gi, ''
+      searchResults = searchResults.replace /\s+/gi, ' '
+      time = searchResults.match /([0-9]{1,2}:[0-9]{1,2} (AM|PM))/gi
+      date = searchResults.match /([a-z]+, [a-z]+ [0-9]{1,2}, [0-9]{4} \([a-z]+(\+|-)?([0-9]+)?\))/gi
+      location = searchResults.match /Time in ([a-z,\s]+)/i
+      if time?.length > 0 && date?.length > 0 && location?.length > 0
+        cb "In #{location[1]} it is #{time[0]} on #{date[0]}"
+      else
+        cb "I was unable to find the current time for #{query}\r\nTry #{searchUrl}"
