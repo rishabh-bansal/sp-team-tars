@@ -32,7 +32,8 @@ module.exports = (robot) ->
       
       last_seen_as_date = new Date(last_seen)
       checked_in = last_seen_as_date > last_checkin_date
-      checked_in_str = if checked_in then "(checked in)" else "(not checked in)"
+      checkin_date_str = last_checkin_date.toDateString()
+      checked_in_str = if checked_in then "(checked in, last check-in date: #{checkin_date_str})" else "(not checked in, last check-in date: #{checkin_date_str})"
       prefix_suffix = if checked_in then "" else "*"
       
       res.send "Discourse Info: User #{username}\r\n     #{prefix_suffix}Last seen on #{last_seen} #{checked_in_str}#{prefix_suffix}\r\n     Last posted on #{last_posted}"
