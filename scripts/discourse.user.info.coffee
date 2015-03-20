@@ -20,7 +20,7 @@ last_checkin_date = new Date(last_checkin_date - dif * 24*60*60*1000);
 
 module.exports = (robot) ->
   robot.respond /show (.+) info( from discourse)?/i, (res) ->
-    user_url = process.env.HUBOT_DISCOURSE_URL + "http://community.sitepoint.com/users/#{encodeURIComponent(res.match[1])}.json"
+    user_url = process.env.HUBOT_DISCOURSE_URL + "/users/#{encodeURIComponent(res.match[1])}.json"
     res.http(user_url)
     .get() (err, _, body) ->
       return res.send "Sorry, the tubes are broken." if err
