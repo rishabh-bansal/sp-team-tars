@@ -29,7 +29,7 @@ module.exports = (robot) ->
         data = JSON.parse(body.toString("utf8"))
         checkin_date_str = last_checkin_date.toDateString()
         output = "Discourse Info: #{groupname} (last check-in date: #{checkin_date_str})\r\n"
-        for own key, user of data
+        for own key, user of data.members
           username = user.username
           last_seen = new Date(user.last_seen_at)
       
