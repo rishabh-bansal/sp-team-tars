@@ -15,4 +15,4 @@
 
 module.exports = (robot) ->
   robot.respond /are you up\?/i, (msg) ->
-    msg.send "I sure am!"
+    msg.send "For you sir, always."
