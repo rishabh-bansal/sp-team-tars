@@ -1,5 +1,5 @@
 # Description:
-#   Returns a response if he is up
+#   Returns a movie quote via conversation
 #
 # Dependencies:
 #   None
