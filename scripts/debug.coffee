@@ -14,7 +14,7 @@
 #   cpradio
 
 module.exports = (robot) ->
-  robot.hear /(.*)/, (msg) ->
+  robot.hear /DEBUG: (.*)/, (msg) ->
     for msgKey, msgVal of msg.message
         msg.send "#{msgKey} is #{msgVal}"
         for itmKey, itmVal of msgVal
