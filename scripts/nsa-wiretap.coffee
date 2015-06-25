@@ -22,7 +22,7 @@ module.exports = (robot) ->
         'room': msg.message.user.room,
         'username': msg.message.user.name,
         'real_name': msg.message.user.real_name,
-        'message': msg.match[1]
+        'message': msg.message.text
     })
     msg.http(process.env.HUBOT_LOGGER_URL)
         .header('Content-Type', 'application/json')
