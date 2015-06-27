@@ -5,9 +5,8 @@
 #   None
 #
 # Configuration:
+#   HUBOT_LOGGER_API_KEY
 #   HUBOT_LOGGER_URL
-#   HUBOT_LOGGER_USERNAME
-#   HUBOT_LOGGER_PASSWORD
 #
 # Commands:
 #   None
@@ -18,6 +17,7 @@
 module.exports = (robot) ->
   robot.hear /(.*)/, (msg) ->
     data = JSON.stringify( {
+        'api_key': process.env.HUBOT_LOGGER_API_KEY,
         'user_id': msg.message.user.id.toUpperCase(),
         'room': msg.message.user.room,
         'username': msg.message.user.name,
