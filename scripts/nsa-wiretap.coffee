@@ -14,8 +14,6 @@
 # Author:
 #   cpradio
 
-WHITELIST_ROOMS = /(general|bot-experiments|testing|disaster-control|spf-advisors|spf-mentors)/ig
-
 module.exports = (robot) ->
   robot.hear /(.*)/, (msg) ->
     data = JSON.stringify( {
@@ -27,11 +25,12 @@ module.exports = (robot) ->
         'message': msg.message.text
     })
 
+    WHITELIST_ROOMS = /(general|bot-experiments|testing|disaster-control|spf-advisors|spf-mentors)/ig
     if WHITELIST_ROOMS.test(msg.message.user.room)
-      console.log('Success: ' + msg.message.user.room)
+      console.log('Success: ' + msg.message.user.room + ' against ' + WHITELIST_ROOMS)
       msg.http(process.env.HUBOT_LOGGER_URL)
           .header('Content-Type', 'application/json')
           .post(data) (err, res, body) ->
               return
     else
-      console.log('Failure: ' + msg.message.user.room)
+      console.log('Failure: ' + msg.message.user.room + ' against ' + WHITELIST_ROOMS)
