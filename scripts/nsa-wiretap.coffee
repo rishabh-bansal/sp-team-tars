@@ -26,7 +26,7 @@ module.exports = (robot) ->
         'real_name': msg.message.user.real_name,
         'message': msg.message.text
     })
-
+    console.log(msg.message.user.room)
     if WHITELIST_ROOMS.test(msg.message.user.room)
       msg.http(process.env.HUBOT_LOGGER_URL)
           .header('Content-Type', 'application/json')
