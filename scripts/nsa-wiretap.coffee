@@ -27,7 +27,7 @@ module.exports = (robot) ->
         'message': msg.message.text
     })
 
-    if (data.room.search(WHITELIST_ROOMS) != -1)
+    if WHITELIST_ROOMS.test(msg.message.user.room)
       msg.http(process.env.HUBOT_LOGGER_URL)
           .header('Content-Type', 'application/json')
           .post(data) (err, res, body) ->
