@@ -14,6 +14,8 @@
 # Author:
 #   cpradio
 
+WHITELIST_ROOMS = /(general|bot-experiments|testing|disaster-control|spf-advisors|spf-mentors)/ig;
+
 module.exports = (robot) ->
   robot.hear /(.*)/, (msg) ->
     data = JSON.stringify( {
@@ -24,8 +26,9 @@ module.exports = (robot) ->
         'real_name': msg.message.user.real_name,
         'message': msg.message.text
     })
-    msg.http(process.env.HUBOT_LOGGER_URL)
-        .header('Content-Type', 'application/json')
-        .post(data) (err, res, body) ->
-            return
-        
+
+    if (data.room.search(WHITELIST_ROOMS) != -1)
+      msg.http(process.env.HUBOT_LOGGER_URL)
+          .header('Content-Type', 'application/json')
+          .post(data) (err, res, body) ->
+              return
